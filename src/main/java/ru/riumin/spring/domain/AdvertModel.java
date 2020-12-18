@@ -2,7 +2,8 @@ package ru.riumin.spring.domain;
 
 import lombok.Data;
 
-
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -14,8 +15,8 @@ public class AdvertModel {
     private long id;
     public static final String ID_COLUMN_NAME = "id";
 
-    @NotEmpty(message = "Please, enter the advert's title.")
-    @Size(max = 200, message = "Advert's name should not have more than 200 characters.")
+    @NotBlank(message = "Please, enter the advert's title.")
+    @Size(min = 2, max = 200, message = "Advert's title should not have more than 200 characters.")
     private String title;
     public static final String TITLE_COLUMN_NAME = "title";
 
@@ -28,7 +29,7 @@ public class AdvertModel {
     private String description;
     public static final String DESCRIPTION_COLUMN_NAME = "description";
 
-    @NotEmpty(message = "Please, enter the product's price.")
+    @Min(value = 0, message = "Please, enter the product's price.")
     private int price;
     public static final String PRICE_COLUMN_NAME = "price";
 

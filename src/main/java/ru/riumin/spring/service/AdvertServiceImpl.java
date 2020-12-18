@@ -1,5 +1,6 @@
 package ru.riumin.spring.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AdvertServiceImpl implements AdvertService {
 
     private static final List<String> EXTRA_FIELDS;
@@ -24,17 +26,6 @@ public class AdvertServiceImpl implements AdvertService {
         AVAILABLE_SORTING_OPTIONS = new HashMap<>();
         AVAILABLE_SORTING_OPTIONS.put("postDate", AdvertModel.POSTDATE_COLUMN_NAME);
         AVAILABLE_SORTING_OPTIONS.put("price", AdvertModel.PRICE_COLUMN_NAME);
-    }
-
-    public AdvertServiceImpl(AdvertRepository advertRepository) {
-        this.advertRepository = advertRepository;
-    }
-
-    @Override
-    public List<AdvertModel> findAllAdverts() {
-        List<AdvertModel> advertModelList = advertRepository.findAll();
-        advertModelList.forEach(this::getDefaultAdvert);
-        return advertModelList;
     }
 
     @Override

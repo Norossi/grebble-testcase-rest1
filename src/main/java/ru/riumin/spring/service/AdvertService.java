@@ -10,8 +10,6 @@ public interface AdvertService {
 
     AdvertModel findAdvertById(Long id, List<String> fields);
 
-    List<AdvertModel> findAllAdverts();
-
     Long saveAdvert(AdvertModel advertModel);
 
     Page<AdvertPageModel> findAllPage(int page, String sortBy, String direction);

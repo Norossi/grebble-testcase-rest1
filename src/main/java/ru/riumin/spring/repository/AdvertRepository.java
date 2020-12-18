@@ -11,8 +11,6 @@ public interface AdvertRepository {
 
     AdvertModel findById(Long id);
 
-    List<AdvertModel> findAll();
-
     Long save(AdvertModel advertModel);
 
     Page<AdvertPageModel> findAllPage(Pageable pageable);

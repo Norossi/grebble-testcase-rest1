@@ -2,12 +2,17 @@ package ru.riumin.spring.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.riumin.spring.domain.AdvertModel;
 import ru.riumin.spring.domain.AdvertPageModel;
 import ru.riumin.spring.service.AdvertService;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/adverts")
@@ -37,12 +42,19 @@ public class AdvertController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long saveAdvert(@RequestBody AdvertModel advertModel) {
+    public Long saveAdvert(@Valid @RequestBody AdvertModel advertModel) {
         return advertService.saveAdvert(advertModel);
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "HELLO";
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationException(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }
